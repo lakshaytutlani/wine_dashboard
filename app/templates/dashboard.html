@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Wine Application Login</title>
+ 
+    <!-- Bootstrap core CSS -->
+    <link  href="{{ url_for('static', filename = 'bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link  href="{{ url_for('static', filename = 'css/jumbotron-narrow.css') }}" rel="stylesheet">
+    <link  href="{{ url_for('static', filename = 'css/pqgrid.min.css') }}" rel="stylesheet">
+    <link  href="{{ url_for('static', filename = 'css/pqgrid.css') }}" rel="stylesheet">
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        
+        <div class="header">
+             <div class="panel panel-default">
+                <div class="panel-heading text-right white"><a href="/">Logout</a></div>
+                
+            </div>
+            <h3 class="text-muted">Wine Connoisseur</h3>
+            <h6 class="text-muted">A Schlumberger Product</h6>
+        </div>
+        <hr>
+        <h5 class="text-muted text-center">Dashboard</h5>
+ 
+        <div id="grid_json" ></div>
+
+	<hr>
+
+    
+    <!-- Bootstrap core JavaScript -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="{{ url_for('static', filename = 'jquery/jquery-2.2.4.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>    
+    <script src="{{ url_for('static', filename = 'popper/popper.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'jquery/jquery.ui.touch-punch.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'jquery/pqgrid.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'jquery/highcharts.js') }}"></script>
+<!-- 
+    <script src="{{ url_for('static', filename = 'js/signUp.js') }}"></script> -->
+    <script>
+
+        var dataValues = {{data|tojson|safe}}
+        console.log(dataValues)
+                var jsonConvertedData = JSON.stringify(dataValues);  // Convert to json
+        console.log(jsonConvertedData);
+        
+
+        
+        $(function(){ 
+        var data = dataValues;
+        var colModel = [
+                { 
+                    title: "ID", //title of column. 
+                    width: 10, //initial width of column
+                    dataType: "integer", //data type of column
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "COUNTRY", 
+                    width:80, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "DESCRIPTION", 
+                    width:400, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "DESIGNATION", 
+                    width:150, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "POINTS", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "PRICE", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "PROVINCE", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "REGION_1", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "REGION_2", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "VARIETY", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                },
+                { 
+                    title: "WINERY", 
+                    width:100, 
+                    dataType: "string", 
+                    align: 'center',
+                    filter: { type: 'textbox', attr: 'placeholder="Search..."', condition: "contain", listeners: ['keyup']}
+                }
+                        
+            ];
+
+
+    //main object to be passed to pqGrid constructor.    
+    var obj = {
+        width: 1150, //width of grid
+        height: 500, //height of grid
+        columnBorders: true,
+		flexHeight: true,
+        scrollModel:{pace: 'fast', autoFit: true, theme: true },
+        pageModel: {type: "local", rPP:30, rPPOptions: [10, 20, 30, 50, 100], strRpp:"{0}", strDisplay:"{0} to {1} of {2}"},
+		filterModel: { on: true, mode: "AND", header: true },
+        colModel: colModel,
+        dataModel: {data:data}
+    };    
+     
+    $("#grid_json").pqGrid( obj );   //since version 3.2.0
+    });
+
+        
+        
+        
+    </script>    
+
+    
+    
+</body>
+ 
+</html>

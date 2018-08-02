@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>Wine Application Login</title>
+ 
+    <!-- Bootstrap core CSS -->
+    <link  href="{{ url_for('static', filename = 'bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link  href="{{ url_for('static', filename = 'css/jumbotron-narrow.css') }}" rel="stylesheet">
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+
+            <h3 class="text-muted">Wine Connoisseur</h3>
+            <h6 class="text-muted">A Schlumberger Product</h6>
+        </div>
+ 
+    <div class="jumbotron">
+        <h1>Log In</h1>
+        <form class="form-login">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+         
+        <button id="btnLogin" class="btn btn-primary btn-block" type="button">Log In</button>
+        <br><br>
+   
+      </form>
+        <div>
+        <a class="btn btn-success" href="showSignUp" role="button">Sign up</a>
+        </div> 
+      </div>
+ 
+
+    </div>
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename = 'jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'jquery/bootbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'popper/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- 
+    <script src="{{ url_for('static', filename = 'js/signUp.js') }}"></script> -->
+    <script>
+    
+    $(function(){
+	$('#btnLogin').click(function(){
+		
+		$.ajax({
+			url: '/logIn',
+			data: $('form').serialize(),
+			type: 'POST',
+			success: function(response){
+				bootbox.alert(response);
+                var obj = jQuery.parseJSON(response);
+                if(obj.message == "success"){
+                    window.location.href = "/dashboard";
+                    }
+			},
+			error: function(error){
+				bootbox.alert(error);
+			}
+		});
+	});
+});
+    
+    
+    </script>
+    
+    
+</body>
+ 
+</html>
